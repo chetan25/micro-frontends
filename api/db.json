@@ -1,0 +1,32 @@
+{
+  "todos": [
+    {
+      "title": "first todo",
+      "description": "this is test",
+      "endGoal": "The delete after add should work",
+      "actions": "add a new todo",
+      "id": 1
+    },
+    {
+      "title": "title",
+      "description": "description",
+      "endGoal": "endGoal",
+      "actions": "actions",
+      "id": 4
+    },
+    {
+      "title": "title",
+      "description": "description",
+      "endGoal": "endGoal",
+      "actions": "actions",
+      "id": 6
+    },
+    {
+      "title": "title",
+      "description": "description",
+      "endGoal": "endGoal",
+      "actions": "actions",
+      "id": 8
+    }
+  ]
+}

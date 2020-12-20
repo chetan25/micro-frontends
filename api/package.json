@@ -1,0 +1,24 @@
+{
+  "name": "appis",
+  "version": "1.0.0",
+  "description": "Apis for the UIs",
+  "main": "main.js",
+  "sideEffects": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server:api": "json-server --watch ./db.json",
+    "dev": "node ./src/main.js"
+  },
+  "author": "chetandasauni",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "graphql": "^15.4.0",
+    "json-server": "^0.16.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.9",
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0"
+  }
+}

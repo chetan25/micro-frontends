@@ -3,6 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "rollup-plugin-typescript2";
 import { babel } from '@rollup/plugin-babel';
+import visualizer from 'rollup-plugin-visualizer';
 // import postcss from "rollup-plugin-postcss";
 
 const packageJson = require("./package.json");
@@ -12,11 +13,6 @@ export default {
     input: "src/index.tsx",
     //  We will be outputting two bundles in two different JavaScript module formats:
     output: [
-        // {
-        //     file: packageJson.main,
-        //     format: "cjs",
-        //     sourcemap: true
-        // },
         {
             file: packageJson.module,
             format: "esm",
@@ -36,5 +32,6 @@ export default {
         commonjs(),
         // transpiles our TypeScript code into JavaScript. This plugin will use all the settings we have set in tsconfig.json
         typescript({ useTsconfigDeclarationDir: true }),
+        visualizer()
     ]
 };

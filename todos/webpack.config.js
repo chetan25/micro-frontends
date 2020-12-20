@@ -1,14 +1,11 @@
-import * as path from 'path';
-import * as webpack from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-// import { ForkTsCheckerWebpackPlugin } from 'fork-ts-checker-webpack-plugin';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-// const webpack = require('webpack');
-``
-const config: webpack.Configuration = {
+module.exports = {
     entry: { index: path.resolve(__dirname, "src", "index.tsx") },
     output: {
         path: path.resolve(__dirname, "build"),
@@ -43,12 +40,12 @@ const config: webpack.Configuration = {
             }
         }),
         new HtmlWebpackPlugin({
-            title: "App Shell",
+            title: "Todo",
             inject: true,
             template: path.resolve(__dirname, "src", "index.html"),
         }),
         new CleanWebpackPlugin(),
-        new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin()
     ],
     optimization: {
         usedExports: true,
@@ -70,5 +67,3 @@ const config: webpack.Configuration = {
         watchContentBase: true,
     },
 };
-
-export default config;
