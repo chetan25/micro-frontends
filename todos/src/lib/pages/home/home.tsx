@@ -59,6 +59,7 @@ const NoTodoWrapper = styled.div`
 // `;
 
 const CardWrapper = styled(Card)`
+   --card-bg-color: rgb(224, 103, 103);
     min-height: 10rem;
     background: #e06767;
     color: black;
