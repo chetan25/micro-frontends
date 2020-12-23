@@ -6,7 +6,7 @@ const app = express();
 
 app.use(cors());
 
-app.use(express.static('../../dist/libs/todos-app'));
+app.use(express.static('build'));
 
 // app.get('/', function (req, res) {
 //   res.send('Hello World')

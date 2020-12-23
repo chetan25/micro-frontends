@@ -15,10 +15,10 @@
       "id": 6
     },
     {
-      "title": "Test todo",
-      "description": "adding todo",
-      "endGoal": "should add a new todo",
-      "actions": "click add and add new todo",
+      "title": "Test federated modules",
+      "description": "this is awesome",
+      "endGoal": "todo should be added",
+      "actions": "add a new todo",
       "id": 7
     }
   ]

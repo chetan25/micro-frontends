@@ -5,7 +5,9 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
+const deps = require("./package.json").dependencies;
 // const webpack = require('webpack');
 ``
 const config: webpack.Configuration = {
@@ -18,6 +20,14 @@ const config: webpack.Configuration = {
     devtool: 'source-map',
     module: {
         rules: [
+            {
+                test: /bootstrap\.tsx$/,
+                // uses to make the dep from bootstrap load not as eager and waits for the dep to load first
+                loader: "bundle-loader",
+                options: {
+                    lazy: true,
+                },
+            },
             {
                 test: /\.(ts|js)x?$/,
                 exclude: /node_modules/,
@@ -42,13 +52,34 @@ const config: webpack.Configuration = {
                 files: './src/**/*.{ts,tsx,js,jsx}' // required - same as command `eslint ./src/**/*.{ts,tsx,js,jsx} --ext .ts,.tsx,.js,.jsx`
             }
         }),
+        new ModuleFederationPlugin({
+            name: "Shell",
+            filename: "remoteEntry.js",
+            remotes: {
+                todos: "todos@http://localhost:6050/remoteTodosEntry.js",
+            },
+            // we need to make the shared React and React-dom registered as singleton and loaded from shell
+            shared: [
+                {
+                    ...deps,
+                    react: {
+                        singleton: true,
+                        requiredVersion: deps.react,
+                    },
+                    "react-dom": {
+                        singleton: true,
+                        requiredVersion: deps["react-dom"],
+                    },
+                },
+            ],
+        }),
         new HtmlWebpackPlugin({
             title: "App Shell",
             inject: true,
             template: path.resolve(__dirname, "src", "index.html"),
         }),
         new CleanWebpackPlugin(),
-        new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin()
     ],
     optimization: {
         usedExports: true,
@@ -61,8 +92,13 @@ const config: webpack.Configuration = {
         }
     },
     devServer: {
-        contentBase: path.join(__dirname, "src"),
-        headers: { "Access-Control-Allow-Origin": "*" },
+        contentBase: path.join(__dirname, "dist"),
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers":
+                "X-Requested-With, content-type, Authorization",
+        },
         hot: true,
         port: 4000,
         open: true,

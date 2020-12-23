@@ -1,17 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import {
-    Header, Spinner, ErrorBoundary
-} from 'ui-components/dist';
-
-const App = () => (
-    <ErrorBoundary>
-        <Spinner/>
-        <Header />
-    </ErrorBoundary>
-);
-
-ReactDOM.render(
-    <App />,
-    document.getElementById("root")
-);
+// What this does is create an opportunity for webpack to coordinate with other
+// remotes and decide who will vend what, before beginning to execute the application.
+// @ts-ignore
+import bootstrap from "./bootstrap";
+bootstrap(() => {});

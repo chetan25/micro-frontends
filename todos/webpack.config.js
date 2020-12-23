@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
@@ -10,7 +12,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "bundle.js",
-        publicPath: '/'
+        // publicPath: '/'
+        publicPath: "http://localhost:6050/"
     },
     devtool: 'source-map',
     module: {
@@ -38,6 +41,16 @@ module.exports = {
             eslint: {
                 files: './src/**/*.{ts,tsx,js,jsx}' // required - same as command `eslint ./src/**/*.{ts,tsx,js,jsx} --ext .ts,.tsx,.js,.jsx`
             }
+        }),
+        new ModuleFederationPlugin({
+            name: "todos",
+            filename: "remoteTodosEntry.js",
+            // The key name follow the ESM syntax inside Node 14
+            exposes: {
+                './Todos': "./src/lib/todos-app"
+            },
+            // we need to make the shared React and React-dom registered as singleton and loaded from shell
+            shared: [{ react: { singleton: true } }, { 'react-dom': { singleton: true } }],
         }),
         new HtmlWebpackPlugin({
             title: "Todo",
