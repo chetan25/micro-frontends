@@ -1,35 +1,24 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import * as path from 'path';
-import * as webpack from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-// import { ForkTsCheckerWebpackPlugin } from 'fork-ts-checker-webpack-plugin';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
-const deps = require("./package.json").dependencies;
-// const webpack = require('webpack');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
- type WebPackOption = webpack.Configuration | webpack.WebpackOptionsNormalized ;
-const config: WebPackOption = {
+module.exports = {
     entry: { index: path.resolve(__dirname, "src", "index.tsx") },
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "bundle.js",
-        publicPath: '/'
+        // publicPath: '/'
+        publicPath: "http://localhost:6060/"
     },
     devtool: 'source-map',
     module: {
         rules: [
-            {
-                test: /bootstrap\.tsx$/,
-                // uses to make the dep from bootstrap load not as eager and waits for the dep to load first
-                loader: "bundle-loader",
-                options: {
-                    lazy: true,
-                },
-            },
             {
                 test: /\.(ts|js)x?$/,
                 exclude: /node_modules/,
@@ -55,28 +44,17 @@ const config: WebPackOption = {
             }
         }),
         new ModuleFederationPlugin({
-            name: "Shell",
-            filename: "remoteEntry.js",
-            remotes: {
-                todos: "todos@http://localhost:6050/remoteTodosEntry.js",
+            name: "user",
+            filename: "remoteUserEntry.js",
+            // The key name follow the ESM syntax inside Node 14
+            exposes: {
+                './RemoteApp': './src/lib/user-app.tsx',
             },
             // we need to make the shared React and React-dom registered as singleton and loaded from shell
-            shared: [
-                {
-                    ...deps,
-                    react: {
-                        singleton: true,
-                        requiredVersion: deps.react,
-                    },
-                    "react-dom": {
-                        singleton: true,
-                        requiredVersion: deps["react-dom"],
-                    },
-                },
-            ],
+            shared: [{ react: { singleton: true } }, { 'react-dom': { singleton: true } }],
         }),
         new HtmlWebpackPlugin({
-            title: "App Shell",
+            title: "Todo",
             inject: true,
             template: path.resolve(__dirname, "src", "index.html"),
         }),
@@ -94,22 +72,12 @@ const config: WebPackOption = {
         }
     },
     devServer: {
-        contentBase: path.join(__dirname, "dist"),
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-            "Access-Control-Allow-Headers":
-                "X-Requested-With, content-type, Authorization",
-        },
+        contentBase: path.join(__dirname, "src"),
+        headers: { "Access-Control-Allow-Origin": "*" },
         hot: true,
-        historyApiFallback: {
-            index: 'index.html'
-        },
-        port: 4000,
+        port: 6060,
         open: true,
         inline: true,
         watchContentBase: true,
     },
 };
-
-export default config;

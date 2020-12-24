@@ -26,9 +26,7 @@
         "regenerator": true
       }
     ],
-    ["babel-plugin-styled-components", { "pure": true, "ssr": false,
-      "displayName": true,
-      "namespace": "shell"
-    }]
+    "babel-plugin-styled-components"
   ]
 }
+
