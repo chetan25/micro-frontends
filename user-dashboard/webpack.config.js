@@ -9,7 +9,7 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
-    entry: { index: path.resolve(__dirname, "src", "index.tsx") },
+    entry: { index: path.resolve(__dirname, "src", "lib" , "user-app.tsx") },
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "bundle.js",
@@ -48,7 +48,10 @@ module.exports = {
             filename: "remoteUserEntry.js",
             // The key name follow the ESM syntax inside Node 14
             exposes: {
-                './RemoteApp': './src/lib/user-app.tsx',
+                './UserApp': './src/lib/user-app.tsx',
+            },
+            remotes: {
+                Shell: "Shell@http://localhost:4000/remoteEntry.js", 
             },
             // we need to make the shared React and React-dom registered as singleton and loaded from shell
             shared: [{ react: { singleton: true } }, { 'react-dom': { singleton: true } }],

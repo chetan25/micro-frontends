@@ -5,7 +5,7 @@ import {
 } from 'ui-components/dist';
 import { Provider, useSelector } from 'react-redux';
 import { store } from './redux/store';
-
+import { selctHostState } from './redux/root-selector';
 import styled, { createGlobalStyle  } from 'styled-components';
 import { Switch, Route, Redirect, Link, BrowserRouter } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const dynamicFederation = async (scope: string, module: string) => {
     });
   };
   
-  const RemoteApp = React.lazy(() => dynamicFederation('app2', './RemoteApp'));
+  const UserApp = lazy(() => dynamicFederation('user', './UserApp'));
   
 // a relevant d.ts file is created as type definition for the remote app root
 const Todos = lazy(() => import("todos/Todos"));
@@ -42,6 +42,13 @@ const SideBar = styled.div`
   width: 10rem;
   background: #d7232b75;
   min-height: 100vh;
+
+  li {
+    font-weight: bold;
+    font-size: 23px;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -64,14 +71,13 @@ const Navigation = styled.div`
 `;
 
 const App = () => {
-    const state = useSelector((state) => state);
-    console.log(state, 'from shell');
+    const localUser = useSelector(selctHostState);
     return (
         <ErrorBoundary>
         <Suspense  fallback="Loading Todo">
             <GlobalStyle />
             <ShellWrapper>
-                <Header />
+                <Header userName={localUser.name}/>
                 <Wrapper>
                     <SideBar>
                         <Navigation role="navigation">
@@ -80,7 +86,7 @@ const App = () => {
                                 <Link to="/todos">Todos</Link>
                                 </li>
                                 <li>
-                                <Link to="/page-2">Page 2</Link>
+                                <Link to="/user">User</Link>
                                 </li>
                             </ul>
                         </Navigation>
@@ -100,8 +106,8 @@ const App = () => {
                             <Route path='/todos'>
                                 <Todos />
                             </Route>
-                            <Route path='/page-2'>
-                                <h2>Page2</h2>
+                            <Route path='/user'>
+                                <UserApp store={store}/>
                             </Route>
                         </Switch>
                     </Content>

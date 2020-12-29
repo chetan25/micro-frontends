@@ -140,9 +140,6 @@ export const Home = () => {
     const isDeleting:  boolean|undefined  = useSelector(selectIsDeleting);
     const addSuccessFull: boolean|undefined  = useSelector(selectAddSuccess);
     const todos: ITodo[] = useSelector(selectTodos);
-    console.log(todos, 'todos present');
-    console.log(isFetching, 'todos isFetching');
-
 
     const [isOpened, setIsOpened] = useState(false);
 
@@ -162,7 +159,6 @@ export const Home = () => {
       if(id) {
           dispatch(deleteTodo(id));
       }
-      console.log(id);
     };
 
     const renderContent = () => {

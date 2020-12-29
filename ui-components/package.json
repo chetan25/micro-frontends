@@ -1,6 +1,6 @@
 {
   "name": "ui-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ui library for shared components",
   "main": "dist/index.js",
   "module": "dist/index.js",

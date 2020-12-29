@@ -1,29 +1,36 @@
-const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
+const CHANGE_USER_EMAIL = 'CHANGE_USER_EMAIL';
 
-const changeUserName = (newName: string) => {
-    return { type: CHANGE_USER_NAME, payload: newName };
+const changeUserEmail = (email: string) => {
+    return { type: CHANGE_USER_EMAIL, payload: email };
 }
 
 interface IState {
     userName: string;
+    email: string;
 }
+
+const initialState = {
+  userName: 'userApp',
+  email: ''
+};
 
 interface IAction {
    type: string;
    payload: string;
 }
 
-const reducer = (state: IState, action: IAction) => {
+const reducer = (state: IState = initialState, action: IAction) => {
     switch (action.type) {
-      case CHANGE_USER_NAME: {
+      case CHANGE_USER_EMAIL: {
         return {
           ...state,
-          appName: action.payload,
+          email: action.payload,
         };
       }
+      default:
+        return state;
     }
-    return state;
   };
   
-  export { changeUserName };
+  export { changeUserEmail };
   export default reducer;

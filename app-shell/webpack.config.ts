@@ -5,7 +5,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 // import { ForkTsCheckerWebpackPlugin } from 'fork-ts-checker-webpack-plugin';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 const deps = require("./package.json").dependencies;
@@ -59,6 +59,10 @@ const config: WebPackOption = {
             filename: "remoteEntry.js",
             remotes: {
                 todos: "todos@http://localhost:6050/remoteTodosEntry.js",
+                user: 'user@http://localhost:6060/remoteUserEntry.js'
+            },
+            exposes: {
+                "./SharedStateService": "./src/redux/stateSubscriber",
             },
             // we need to make the shared React and React-dom registered as singleton and loaded from shell
             shared: [
@@ -73,6 +77,8 @@ const config: WebPackOption = {
                         requiredVersion: deps["react-dom"],
                     },
                 },
+                // had to put this in shared deps for the service to be loaded in the consumer properly
+                "./src/redux/stateSubscriber",
             ],
         }),
         new HtmlWebpackPlugin({
