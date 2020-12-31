@@ -11,7 +11,12 @@ This mono repo includes -
 >The Micro FE are loaded and rendered in the App Shell using two techniques
 > 1. Module Federation - Currently App Shell and Todos implements Module Federation available in Webpack 5.
 > Todos exposes the root of the entire app and App shell just uses it as remote.
-> 2. Manual Method - This method will make use of Dynamic Import for ESM bundles and script tags for Common js bundles. This will be available via helper package. 
+> 2. Manual Method - This method will make use of Dynamic Import for ESM bundles and script tags for Common js bundles. This will be available via helper package.
+
+## Shared State
+ We have used two methods to show how we can share state between the App shell and consuming micro FE.
+ 1. Using Dynamic Federation and Reducer Replacement technique - This is documneted in the Module federation, and uses custom shared store and reducer replacment. One gotcha with this is that we meed to add the script tag for the connuming App that uses the custom store in order for the dynamic federation to work.
+ 2. Using Observables and Hooks - In this approach we add an observable and a custom hook which subscribe to it for state updates.The Hooks are exposed and is consumed by the other micro FE for Global State read/write. 
 
 ### App Shell
 *Note - Work still in progress for this App shell.

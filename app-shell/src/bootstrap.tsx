@@ -9,6 +9,8 @@ import { selctHostState } from './redux/root-selector';
 import styled, { createGlobalStyle  } from 'styled-components';
 import { Switch, Route, Redirect, Link, BrowserRouter } from 'react-router-dom';
 
+// This is used to share the Store Object and inject and replace the reducer on the fly between host and micro FE.
+// To make this work we need to add the script tag in the Html and the webpack config remote won't work for this 
 const dynamicFederation = async (scope: string, module: string) => {
     // @ts-ignore
     const container = window[scope]; // or get the container somewhere else

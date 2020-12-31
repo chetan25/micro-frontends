@@ -1,12 +1,12 @@
 const CHANGE_USER_EMAIL = 'CHANGE_USER_EMAIL';
 
 const changeUserEmail = (email: string) => {
-    return { type: CHANGE_USER_EMAIL, payload: email };
+  return { type: CHANGE_USER_EMAIL, payload: email };
 }
 
 interface IState {
-    userName: string;
-    email: string;
+  userName: string;
+  email: string;
 }
 
 const initialState = {
@@ -15,10 +15,11 @@ const initialState = {
 };
 
 interface IAction {
-   type: string;
-   payload: string;
+  type: string;
+  payload: string;
 }
 
+/** Reducer for User App */
 const reducer = (state: IState = initialState, action: IAction) => {
     switch (action.type) {
       case CHANGE_USER_EMAIL: {

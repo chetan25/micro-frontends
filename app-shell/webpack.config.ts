@@ -59,7 +59,7 @@ const config: WebPackOption = {
             filename: "remoteEntry.js",
             remotes: {
                 todos: "todos@http://localhost:6050/remoteTodosEntry.js",
-                user: 'user@http://localhost:6060/remoteUserEntry.js'
+                // user: 'user@http://localhost:6060/remoteUserEntry.js'
             },
             exposes: {
                 "./SharedStateService": "./src/redux/stateSubscriber",
