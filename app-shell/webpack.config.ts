@@ -9,7 +9,6 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 const deps = require("./package.json").dependencies;
-// const webpack = require('webpack');
 
  type WebPackOption = webpack.Configuration | webpack.WebpackOptionsNormalized ;
 const config: WebPackOption = {
@@ -59,7 +58,6 @@ const config: WebPackOption = {
             filename: "remoteEntry.js",
             remotes: {
                 todos: "todos@http://localhost:6050/remoteTodosEntry.js",
-                // user: 'user@http://localhost:6060/remoteUserEntry.js'
             },
             exposes: {
                 "./SharedStateService": "./src/redux/stateSubscriber",
