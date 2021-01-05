@@ -6,11 +6,19 @@ import reducer, { changeUserEmail } from './redux/reducer';
 import { SelectUser, UpdateUser, changeUserLocation } from "Shell/SharedStateService";
 import { selectEmail } from './redux/userSelector';
 
+// recoil
+import { useRecoilState  } from "recoil";
+import { navbarTitle } from "Shell/Atoms"
+
  const UserApp = () => {
     const dispatch = useDispatch();
     const email = useSelector(selectEmail);
     const user = SelectUser();
     const state = useSelector((state) => state);
+
+    // recoil state 
+    const [title, setRecoilTitle] = useRecoilState(navbarTitle);
+
     // @ts-ignore
     // since at this point the state is an Onject with key value pair,
     // and to access the root state we use the host key
@@ -20,11 +28,14 @@ import { selectEmail } from './redux/userSelector';
     const [formName, setFormName] = useState(user.name);
     const [formEmail, setFormEmail] = useState(email);
     const [formlocation, setFormLocation] = useState(location);
+    const [formNavTitle, setFormNavTitle] = useState<string>(title as string);
+
 
     useEffect(() => {
       setFormName(user.name);
       setFormLocation(location);
-    }, [user, location]);
+      setFormNavTitle(title as string);
+    }, [user, location, title]);
 
     const updateUser = () => {
       UpdateUser(formName);
@@ -46,6 +57,10 @@ import { selectEmail } from './redux/userSelector';
       setFormLocation(e?.target?.value);
     }
 
+    const handleNavTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormNavTitle(e?.target?.value);
+    }
+
     const updateUserLocation = () => {
       dispatch(changeUserLocation(formlocation))
     };
@@ -64,6 +79,12 @@ import { selectEmail } from './redux/userSelector';
             <input type="text" id="location" value={formlocation} onChange={handleLocationChange}/>
             <button onClick={updateUserLocation}>Update</button>
             (Updates Global shared State using Reducer)
+        </div>
+        <div style={{display: 'flex', columnGap: '3rem'}}>
+            <label style={{width: '5rem'}}>Nav Title</label>
+            <input type="text" id="email" value={formNavTitle} onChange={handleNavTitleChange}/>
+            <button onClick={() => setRecoilTitle(formNavTitle)}>Update</button>
+            (Updates Shared Recoil State)
         </div>
         <div style={{display: 'flex', columnGap: '3rem'}}>
             <label style={{width: '5rem'}}>Email</label>

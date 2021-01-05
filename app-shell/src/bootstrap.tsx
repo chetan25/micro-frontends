@@ -9,6 +9,10 @@ import { selctHostState } from './redux/root-selector';
 import styled, { createGlobalStyle  } from 'styled-components';
 import { Switch, Route, Redirect, Link, BrowserRouter } from 'react-router-dom';
 
+// adding recoil 
+import { useRecoilValue, RecoilRoot } from 'recoil' 
+import { navbarTitle } from './recoil-atom';
+
 // This is used to share the Store Object and inject and replace the reducer on the fly between host and micro FE.
 // To make this work we need to add the script tag in the Html and the webpack config remote won't work for this 
 const dynamicFederation = async (scope: string, module: string) => {
@@ -23,7 +27,7 @@ const dynamicFederation = async (scope: string, module: string) => {
     });
   };
   
-  const UserApp = lazy(() => dynamicFederation('user', './UserApp'));
+const UserApp = lazy(() => dynamicFederation('user', './UserApp'));
   
 // a relevant d.ts file is created as type definition for the remote app root
 const Todos = lazy(() => import("todos/Todos"));
@@ -72,8 +76,18 @@ const Navigation = styled.div`
   margin-top: 3rem;
 `;
 
+const TilteWrapper = styled.div`
+  text-decoration: underline;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
 const App = () => {
     const localUser = useSelector(selctHostState);
+    // recoil state 
+    const title = useRecoilValue(navbarTitle);
+    console.log(title, 'title');
     return (
         <ErrorBoundary>
         <Suspense  fallback="Loading Todo">
@@ -83,6 +97,7 @@ const App = () => {
                 <Wrapper>
                     <SideBar>
                         <Navigation role="navigation">
+                            <TilteWrapper>{title}</TilteWrapper>
                             <ul>
                                 <li>
                                 <Link to="/todos">Todos</Link>
@@ -121,6 +136,10 @@ const App = () => {
 };
 
 ReactDOM.render(
-    <BrowserRouter><Provider store={store}><App /></Provider></BrowserRouter>,
+    <BrowserRouter>
+      <Provider store={store}>
+        <RecoilRoot><App /></RecoilRoot>
+      </Provider>
+    </BrowserRouter>,
     document.getElementById("root")
 );

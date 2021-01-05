@@ -61,6 +61,7 @@ const config: WebPackOption = {
             },
             exposes: {
                 "./SharedStateService": "./src/redux/stateSubscriber",
+                "./Atoms": "./src/recoil-atom.ts",
             },
             // we need to make the shared React and React-dom registered as singleton and loaded from shell
             shared: [

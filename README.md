@@ -1,6 +1,16 @@
 # Micro FrontEnd
 This is a simple implementation of Micro FE, where we have a Shell App that renders different UIs.
 
+## To run locally 
+- Start the API server by running the following commands
+   > `npm run start` - will run the following commands concurrently `npm run server:api` and then `npm run dev`
+- To build and serve the Todos App
+   > `npm run server`
+- To build and serve the User Dashboard App
+   > `npm run server`   
+- To run the App Shell
+   > `npm run start`
+
 ## What's in this Mono Repo
 This mono repo includes -
 - App Shell - This handles the loading and rendering of different UIs and the root level routing.
@@ -16,7 +26,8 @@ This mono repo includes -
 ## Shared State
  We have used two methods to show how we can share state between the App shell and consuming micro FE.
  1. Using Dynamic Federation and Reducer Replacement technique - This is documneted in the Module federation, and uses custom shared store and reducer replacment. One gotcha with this is that we meed to add the script tag for the connuming App that uses the custom store in order for the dynamic federation to work.
- 2. Using Observables and Hooks - In this approach we add an observable and a custom hook which subscribe to it for state updates.The Hooks are exposed and is consumed by the other micro FE for Global State read/write. 
+ 2. Using Observables and Hooks - In this approach we add an observable and a custom hook which subscribe to it for state updates.The Hooks are exposed and is consumed by the other micro FE for Global State read/write.
+ 3. Using Recoil and taking advantage of the Recoil Atoms
 
 ### App Shell
 *Note - Work still in progress for this App shell.
@@ -43,12 +54,4 @@ the `db.json` file that holds the data structure. We are running an Express serv
 > To run the Json Server - `npm run server:api`
 > To run the API - `npm run dev` 
 
-
-## To run locally 
-- Start the API server by running the following commands
-   > `npm run server:api` and then `npm run dev`
-- To build and serve the Todos App
-   > `npm run build` and then `npm run server`
-- To run the App Shell
-   > `npm run start`
   

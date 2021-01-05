@@ -54,7 +54,7 @@ module.exports = {
                 Shell: "Shell@http://localhost:4000/remoteEntry.js", 
             },
             // we need to make the shared React and React-dom registered as singleton and loaded from shell
-            shared: [{ react: { singleton: true } }, { 'react-dom': { singleton: true } }],
+            shared: [{ react: { singleton: true } }, { 'react-dom': { singleton: true } }, { recoil: { singleton: true } }],
         }),
         new HtmlWebpackPlugin({
             title: "Todo",
